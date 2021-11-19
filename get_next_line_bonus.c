@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ylabtaim <ylabtaim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/17 15:13:20 by ylabtaim          #+#    #+#             */
-/*   Updated: 2021/11/19 20:22:13 by ylabtaim         ###   ########.fr       */
+/*   Created: 2021/11/18 22:09:36 by ylabtaim          #+#    #+#             */
+/*   Updated: 2021/11/19 20:23:03 by ylabtaim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_read(int fd, char *buffers)
 {
@@ -87,14 +87,14 @@ char	*new_buffers(char *buffers)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*buffers;
+	static char	*buffers[200000];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	buffers = ft_read(fd, buffers);
-	if (!buffers)
+	buffers[fd] = ft_read(fd, buffers[fd]);
+	if (!buffers[fd])
 		return (0);
-	line = get_line(buffers);
-	buffers = new_buffers(buffers);
+	line = get_line(buffers[fd]);
+	buffers[fd] = new_buffers(buffers[fd]);
 	return (line);
 }
